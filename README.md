@@ -74,19 +74,12 @@ JavaWeb是基于 SpringBoot2+Layui2.5.6+Thymeleaf++Shiro+MybatisPlus 研发的�
 ![一对一技术服务](http://images.vue.rxthink.cn/demo/qq.png)
 
 
-### 日志管理
-日志记录采用AOP切面的方式对所有包含@BussinessLog注解的方法进行aop切入，会完成的记录下当前用户所有的操作记录（即@BussinessLog value属性的内容）。
-
-
-### 版权声明
-JavaWeb采用LGPL-3.0开源协议
-
-
 ### 版本说明
 
 | 版本名称 | 说明 | 地址 |
 | :---: | :---: | :---: |
-| JavaWeb Vue版本 v1.0.0 | 前后端分离版，采用SpringBoot2+Vue | https://gitee.com/javaweb520/JavaWeb_Vue |
+| JavaWeb Vue后端 v1.0.0 | 前后端分离版，采用SpringBoot2+Vue | https://gitee.com/javaweb520/JavaWeb_Vue |
+| JavaWeb Vue前端 v1.0.0 | 前后端分离版，采用SpringBoot2+Vue | https://gitee.com/javaweb520/JavaWeb_Vue_UI |
 | JavaWeb 混编版 v1.0.0 | 采用SpringBoot2+Thymeleaf+layui | https://gitee.com/javaweb520/JavaWeb |
 
 ## 效果图展示
