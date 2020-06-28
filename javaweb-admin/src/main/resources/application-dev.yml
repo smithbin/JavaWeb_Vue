@@ -13,7 +13,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 填写你数据库的url、登录名、密码和数据库名
-    url: jdbc:mysql://47.99.90.120:3306/javaweb.vue?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8&useSSL=true&tinyInt1isBit=false
+    url: jdbc:mysql://127.0.0.1:3306/javaweb.vue?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8&useSSL=true&tinyInt1isBit=false
     username: root
     password:
     druid:
@@ -118,11 +118,11 @@ spring:
             require: true
 
   alisms:
-    accessKeyId: LTAI4Fn8nyBWEnxdV5RKnwQs
-    accessKeySecret: dc5hJj8DsPUdfVwvztcY1xaPEbcFRK
+    accessKeyId:
+    accessKeySecret:
     regionId: cn-hangzhou
     signName: 大学圈
-    templateCode: SMS_176912630
+    templateCode:
 
   thymeleaf:
     # 默认true,开发是设置false,上线是设置为true以便提高性能

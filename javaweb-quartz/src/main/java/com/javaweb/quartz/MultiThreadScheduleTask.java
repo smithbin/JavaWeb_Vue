@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Component
 // 开启多线程
 @EnableAsync
-public class MultithreadScheduleTask {
+public class MultiThreadScheduleTask {
 
 //    @Async
 //    @Scheduled(fixedDelay = 3000)  //间隔3秒
