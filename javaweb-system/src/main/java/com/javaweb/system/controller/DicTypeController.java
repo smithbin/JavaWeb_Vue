@@ -33,8 +33,8 @@ public class DicTypeController extends BaseController {
      * @param query 查询条件
      * @return
      */
-    @PostMapping("/index")
-    public JsonResult index(@RequestBody DicTypeQuery query) {
+    @PostMapping("/list")
+    public JsonResult list(@RequestBody DicTypeQuery query) {
         return dicTypeService.getList(query);
     }
 

@@ -8,9 +8,6 @@
     <a href="http://mp.baomidou.com">
         <img src="https://img.shields.io/badge/mybatis--plus-3.0-blue.svg" alt="mybatis-plus">
     </a>  
-	<a href="http://www.javaweb.vip/">
-	    <img src="https://img.shields.io/badge/JavaWeb-v1.0.0-brightgreen.svg" />
-	</a>
 	<a href='https://gitee.com/javaweb520/JavaWeb_Vue/stargazers'>
 	    <img src='https://gitee.com/javaweb520/JavaWeb_Vue/badge/star.svg?theme=white' alt='star'></img>
 	</a>

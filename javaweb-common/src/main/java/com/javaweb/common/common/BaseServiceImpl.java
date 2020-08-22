@@ -56,6 +56,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     @Override
     public JsonResult add(T entity) {
+//        return JsonResult.error("演示系统禁止操作");
         boolean result = this.save(entity);
         if (!result) {
             return JsonResult.error();
@@ -71,6 +72,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     @Override
     public JsonResult update(T entity) {
+//        return JsonResult.error("演示系统禁止操作");
         boolean result = this.updateById(entity);
         if (!result) {
             return JsonResult.error();
@@ -86,6 +88,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     @Override
     public JsonResult edit(T entity) {
+//        return JsonResult.error("演示系统禁止操作");
         boolean result = this.saveOrUpdate(entity);
         if (!result) {
             return JsonResult.error();
@@ -101,6 +104,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     @Override
     public JsonResult delete(T entity) {
+//        return JsonResult.error("演示系统禁止操作");
         boolean result = this.updateById(entity);
         if (!result) {
             return JsonResult.error();
@@ -116,6 +120,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     @Override
     public JsonResult deleteById(Integer id) {
+//        return JsonResult.error("演示系统禁止操作");
         if (StringUtils.isEmpty(id)) {
             return JsonResult.error("记录ID不能为空");
         }
@@ -134,6 +139,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     @Override
     public JsonResult deleteByIds(String ids) {
+//        return JsonResult.error("演示系统禁止操作");
         if (StringUtils.isEmpty(ids)) {
             return JsonResult.error("记录ID不能为空");
         }

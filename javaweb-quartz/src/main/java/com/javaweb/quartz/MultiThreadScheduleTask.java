@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component
-// 开启多线程
-@EnableAsync
-public class MultiThreadScheduleTask {
-
+//@Component
+//// 开启多线程
+//@EnableAsync
+//public class MultiThreadScheduleTask {
+//
 //    @Async
 //    @Scheduled(fixedDelay = 3000)  //间隔3秒
 //    public void first() throws InterruptedException {
@@ -26,5 +26,5 @@ public class MultiThreadScheduleTask {
 //        System.out.println("第二个定时任务开始 : " + LocalDateTime.now().toLocalTime() + "\r\n线程 : " + Thread.currentThread().getName());
 //        System.out.println();
 //    }
-
-}
+//
+//}

@@ -90,7 +90,7 @@ public class JsonResult implements Serializable {
     }
 
     public static JsonResult error(String msg) {
-        return new JsonResult(401, msg);
+        return new JsonResult(-1, msg);
     }
 
     public static JsonResult error(Integer code, String msg) {
