@@ -1,4 +1,4 @@
-package com.javaweb.framework.manager;
+package com.javaweb.system.manager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

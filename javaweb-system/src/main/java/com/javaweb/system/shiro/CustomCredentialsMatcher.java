@@ -1,4 +1,4 @@
-package com.javaweb.framework.shiro;
+package com.javaweb.system.shiro;
 
 import com.javaweb.common.utils.CommonUtils;
 import org.apache.shiro.authc.AuthenticationInfo;

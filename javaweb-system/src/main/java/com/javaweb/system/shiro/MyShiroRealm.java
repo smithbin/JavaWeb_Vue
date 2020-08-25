@@ -1,8 +1,7 @@
-package com.javaweb.framework.shiro;
+package com.javaweb.system.shiro;
 
 import com.javaweb.common.exception.user.CaptchaException;
 import com.javaweb.common.exception.user.UserNotExistsException;
-import com.javaweb.framework.service.SysLoginService;
 import com.javaweb.system.entity.Menu;
 import com.javaweb.system.entity.User;
 import com.javaweb.system.service.ILoginService;
@@ -23,9 +22,6 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private ILoginService loginService;
-
-    @Autowired
-    private SysLoginService sysLoginService;
 
     /**
      * 授权权限
@@ -77,7 +73,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         User user = null;
         try {
-            user = sysLoginService.login(username, password);
+            user = loginService.login(username, password);
         } catch (CaptchaException e) {
             throw new AuthenticationException(e.getMessage(), e);
         } catch (UserNotExistsException e) {

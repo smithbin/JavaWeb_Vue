@@ -1,5 +1,6 @@
 package com.javaweb.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,7 +10,9 @@ import com.javaweb.common.utils.DateUtils;
 import com.javaweb.common.utils.JsonResult;
 import com.javaweb.system.dto.RoleRulesDto;
 import com.javaweb.system.entity.Role;
+import com.javaweb.system.entity.RoleMenu;
 import com.javaweb.system.mapper.RoleMapper;
+import com.javaweb.system.mapper.RoleMenuMapper;
 import com.javaweb.system.query.RoleQuery;
 import com.javaweb.system.service.IRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,6 +41,8 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
 
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     @Autowired
     private Validator validator;
@@ -158,7 +163,11 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
         if (roleRulesDto.getId() == null || roleRulesDto.getId() <= 0) {
             return JsonResult.error("角色ID不能为空");
         }
-        // 保存数据
+        if (StringUtils.isEmpty(roleRulesDto.getRules())) {
+            return JsonResult.error("请选择权限菜单");
+        }
+
+        // 保存数据(逗号分隔)
         Role entity = new Role();
         entity.setId(roleRulesDto.getId());
         entity.setRules(roleRulesDto.getRules());
@@ -166,7 +175,26 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
         if (!result) {
             return JsonResult.error("权限设置失败");
         }
-        return JsonResult.success("权限设置成功");
+
+        // 删除已存在的数据
+        roleMenuMapper.delete(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, roleRulesDto.getId()));
+
+        // 插入角色菜单关系表数据
+        Integer totalNum = 0;
+        String[] strings = roleRulesDto.getRules().split(",");
+        for (String string : strings) {
+            RoleMenu roleMenu = new RoleMenu();
+            roleMenu.setRoleId(roleRulesDto.getId());
+            roleMenu.setMenuId(Integer.valueOf(string));
+            Integer result2 = roleMenuMapper.insert(roleMenu);
+            if (result2 == 1) {
+                totalNum++;
+            }
+        }
+        if (totalNum == strings.length) {
+            return JsonResult.success("权限设置成功");
+        }
+        return JsonResult.error("权限设置失败");
     }
 
     /**

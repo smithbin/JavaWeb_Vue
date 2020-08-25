@@ -1,4 +1,4 @@
-package com.javaweb.framework.manager;
+package com.javaweb.system.manager;
 
 import com.javaweb.common.enums.Constants;
 import com.javaweb.common.utils.IpUtils;

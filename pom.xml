@@ -21,7 +21,6 @@
         <module>javaweb-common</module>
         <module>javaweb-generator</module>
         <module>javaweb-system</module>
-        <module>javaweb-framework</module>
         <module>javaweb-admin</module>
         <module>javaweb-quartz</module>
         <module>javaweb-queue</module>
@@ -52,11 +51,6 @@
             <dependency>
                 <groupId>com.javaweb</groupId>
                 <artifactId>javaweb-system</artifactId>
-                <version>${version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.javaweb</groupId>
-                <artifactId>javaweb-framework</artifactId>
                 <version>${version}</version>
             </dependency>
             <dependency>

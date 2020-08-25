@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javaweb.system.mapper.RoleMenuMapper">
 
+    <!-- 获取权限菜单列表 -->
+    <select id="getMenuList" parameterType="java.util.Map" resultType="com.javaweb.system.entity.Menu">
+        SELECT m.* FROM sys_menu AS m
+        LEFT JOIN sys_role_menu AS r ON m.id=r.menu_id
+        WHERE m.`status`=1 AND m.mark=1
+        <choose>
+
+            <when test="roleList != null and ruleList != null">
+                AND (r.role_id in
+                <foreach collection="roleList" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+                OR m.id in
+                <foreach collection="ruleList" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+                )
+            </when>
+
+            <otherwise>
+                <if test="roleList != null"> AND r.role_id in
+                    <foreach collection="roleList" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="ruleList != null"> AND m.id in
+                    <foreach collection="ruleList" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+            </otherwise>
+
+        </choose>
+         GROUP BY m.id
+         ORDER BY m.sort ASC;
+    </select>
+
 </mapper>

@@ -4,6 +4,7 @@ import com.javaweb.common.common.BaseController;
 import com.javaweb.common.utils.JsonResult;
 import com.javaweb.system.dto.LoginDto;
 import com.javaweb.system.service.ILoginService;
+import com.javaweb.system.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class LoginController extends BaseController {
      */
     @GetMapping("/getLoginInfo")
     public JsonResult getLoginInfo() {
-        return userService.getLoginInfo(1);
+        return userService.getLoginInfo(ShiroUtils.getAdminId());
     }
 
     /**

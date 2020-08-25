@@ -1,4 +1,4 @@
-package com.javaweb.framework.manager;
+package com.javaweb.system.manager;
 
 import com.javaweb.common.utils.SpringUtils;
 import com.javaweb.common.utils.ThreadUtils;

@@ -1,4 +1,4 @@
-package com.javaweb.framework.filter;
+package com.javaweb.system.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.javaweb.common.utils.JsonResult;

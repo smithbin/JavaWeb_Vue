@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * 代码生成器相关配置
  */
 @Component
-@ConfigurationProperties(prefix = "gentable")
+@ConfigurationProperties(prefix = "generate")
 public class GenConfig {
 
     /**

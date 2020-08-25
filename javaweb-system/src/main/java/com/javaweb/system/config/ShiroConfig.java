@@ -1,10 +1,10 @@
-package com.javaweb.framework.config;
+package com.javaweb.system.config;
 
-import com.javaweb.framework.filter.ShiroLoginFilter;
-import com.javaweb.framework.filter.ShiroLogoutFilter;
-import com.javaweb.framework.shiro.MySessionManager;
-import com.javaweb.framework.shiro.CustomCredentialsMatcher;
-import com.javaweb.framework.shiro.MyShiroRealm;
+import com.javaweb.system.filter.ShiroLoginFilter;
+import com.javaweb.system.filter.ShiroLogoutFilter;
+import com.javaweb.system.shiro.MySessionManager;
+import com.javaweb.system.shiro.CustomCredentialsMatcher;
+import com.javaweb.system.shiro.MyShiroRealm;
 import lombok.Data;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.codec.Base64;

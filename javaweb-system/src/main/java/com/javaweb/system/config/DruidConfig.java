@@ -1,4 +1,4 @@
-package com.javaweb.framework.config;
+package com.javaweb.system.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;

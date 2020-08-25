@@ -1,5 +1,6 @@
 package com.javaweb.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,9 +14,11 @@ import com.javaweb.system.dto.UserRulesDto;
 import com.javaweb.system.entity.Level;
 import com.javaweb.system.entity.Position;
 import com.javaweb.system.entity.User;
+import com.javaweb.system.entity.UserRole;
 import com.javaweb.system.mapper.LevelMapper;
 import com.javaweb.system.mapper.PositionMapper;
 import com.javaweb.system.mapper.UserMapper;
+import com.javaweb.system.mapper.UserRoleMapper;
 import com.javaweb.system.query.UserQuery;
 import com.javaweb.system.service.IDepService;
 import com.javaweb.system.service.IUserService;
@@ -45,15 +48,14 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private Validator validator;
-
     @Autowired
     private LevelMapper levelMapper;
-
     @Autowired
     private PositionMapper positionMapper;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Autowired
     private IDepService depService;
@@ -166,7 +168,24 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
             entity.setCreateUser(1);
             entity.setCreateTime(DateUtils.now());
         }
-        return super.edit(entity);
+        boolean result = this.saveOrUpdate(entity);
+        if (!result) {
+            return JsonResult.error();
+        }
+
+        // 删除现存的人员角色关系数据
+        userRoleMapper.delete(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, entity.getId()));
+        // 新增人员角色关系表
+        if (!StringUtils.isEmpty(entity.getRoleIds())) {
+            String[] strings = entity.getRoleIds().split(",");
+            for (String string : strings) {
+                UserRole userRole = new UserRole();
+                userRole.setUserId(entity.getId());
+                userRole.setRoleId(Integer.valueOf(string));
+                Integer result2 = userRoleMapper.insert(userRole);
+            }
+        }
+        return JsonResult.success();
     }
 
     /**

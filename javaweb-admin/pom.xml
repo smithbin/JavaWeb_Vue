@@ -20,7 +20,7 @@
         <!-- 核心模块 -->
         <dependency>
             <groupId>com.javaweb</groupId>
-            <artifactId>javaweb-framework</artifactId>
+            <artifactId>javaweb-system</artifactId>
         </dependency>
         <!-- 代码生成 -->
         <dependency>

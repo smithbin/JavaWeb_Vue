@@ -1,9 +1,8 @@
-package com.javaweb.framework.filter;
+package com.javaweb.system.filter;
 
-import com.javaweb.common.enums.Constants;
 import com.javaweb.common.utils.StringUtils;
-import com.javaweb.framework.constant.ShiroConstants;
-import com.javaweb.framework.utils.ShiroUtils;
+import com.javaweb.system.constant.ShiroConstants;
+import com.javaweb.system.utils.ShiroUtils;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
 import javax.servlet.ServletRequest;

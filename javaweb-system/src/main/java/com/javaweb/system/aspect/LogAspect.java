@@ -1,13 +1,13 @@
-package com.javaweb.framework.aspect;
+package com.javaweb.system.aspect;
 
 import com.alibaba.fastjson.JSON;
 import com.javaweb.common.annotation.Log;
 import com.javaweb.common.enums.BusinessStatus;
 import com.javaweb.common.utils.IpUtils;
 import com.javaweb.common.utils.ServletUtils;
-import com.javaweb.framework.manager.AsyncFactory;
-import com.javaweb.framework.manager.AsyncManager;
-import com.javaweb.framework.utils.ShiroUtils;
+import com.javaweb.system.manager.AsyncFactory;
+import com.javaweb.system.manager.AsyncManager;
+import com.javaweb.system.utils.ShiroUtils;
 import com.javaweb.common.utils.StringUtils;
 import com.javaweb.system.entity.OperLog;
 import com.javaweb.system.entity.User;
@@ -82,7 +82,7 @@ public class LogAspect {
             // 返回参数
             operLog.setJsonResult(JSON.toJSONString(jsonResult));
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
-            User user = ShiroUtils.getLoginInfo();
+            User user = ShiroUtils.getAdminInfo();
             operLog.setOperName(user.getRealname());
             if (e != null) {
                 operLog.setStatus(BusinessStatus.FAIL.ordinal());

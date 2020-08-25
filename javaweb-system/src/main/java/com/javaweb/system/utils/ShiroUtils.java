@@ -1,4 +1,4 @@
-package com.javaweb.framework.utils;
+package com.javaweb.system.utils;
 
 import com.javaweb.common.utils.SpringUtils;
 import com.javaweb.system.entity.User;
@@ -48,7 +48,7 @@ public class ShiroUtils {
      *
      * @return
      */
-    public static User getLoginInfo() {
+    public static User getAdminInfo() {
         return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
@@ -57,8 +57,8 @@ public class ShiroUtils {
      *
      * @return
      */
-    public static Integer getLoginId() {
-        User user = getLoginInfo();
+    public static Integer getAdminId() {
+        User user = getAdminInfo();
         return user.getId();
     }
 

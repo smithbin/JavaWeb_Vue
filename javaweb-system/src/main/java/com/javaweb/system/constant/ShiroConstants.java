@@ -1,4 +1,4 @@
-package com.javaweb.framework.constant;
+package com.javaweb.system.constant;
 
 /**
  * Shiro相关常量

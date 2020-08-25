@@ -1,4 +1,4 @@
-package com.javaweb.framework.shiro;
+package com.javaweb.system.shiro;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;

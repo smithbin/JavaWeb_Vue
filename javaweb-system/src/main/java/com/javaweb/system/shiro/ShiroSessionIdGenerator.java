@@ -1,4 +1,4 @@
-package com.javaweb.framework.shiro;
+package com.javaweb.system.shiro;
 
 import com.javaweb.common.constant.RedisConstant;
 import org.apache.shiro.session.Session;

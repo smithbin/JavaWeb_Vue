@@ -3,18 +3,25 @@ package com.javaweb.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.javaweb.common.common.BaseServiceImpl;
 import com.javaweb.common.enums.Constants;
+import com.javaweb.common.exception.user.CaptchaException;
+import com.javaweb.common.exception.user.UserNotExistsException;
 import com.javaweb.common.utils.*;
 import com.javaweb.system.dto.LoginDto;
 import com.javaweb.system.entity.Menu;
 import com.javaweb.system.entity.Role;
 import com.javaweb.system.entity.User;
+import com.javaweb.system.manager.AsyncFactory;
+import com.javaweb.system.manager.AsyncManager;
 import com.javaweb.system.mapper.MenuMapper;
 import com.javaweb.system.mapper.RoleMapper;
+import com.javaweb.system.mapper.RoleMenuMapper;
 import com.javaweb.system.mapper.UserMapper;
 import com.javaweb.system.service.ILoginLogService;
 import com.javaweb.system.service.ILoginService;
+import com.javaweb.system.utils.ShiroUtils;
 import com.javaweb.system.vo.menu.MenuListVo;
 import com.javaweb.system.vo.user.UserInfoVo;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -46,15 +53,14 @@ public class LoginServiceImpl extends BaseServiceImpl<UserMapper, User> implemen
 
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private RedisUtils redisUtils;
-
     @Autowired
     private MenuMapper menuMapper;
-
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     @Autowired
     private ILoginLogService loginLogService;
@@ -138,14 +144,14 @@ public class LoginServiceImpl extends BaseServiceImpl<UserMapper, User> implemen
      */
     @Override
     public JsonResult logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-//        // 获取当前登录人信息
-//        User user = ShiroUtils.getLoginInfo();
-//        // 记录用户退出日志
-//        AsyncManager.me().execute(AsyncFactory.recordLogininfor(user.getUsername(), Constants.LOGOUT, "退出成功"));
-//        // 退出登录
-//        ShiroUtils.logout();
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.logout();
+        // 获取当前登录人信息
+        User user = ShiroUtils.getAdminInfo();
+        // 记录用户退出日志
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(user.getUsername(), Constants.LOGOUT, "退出成功"));
+        // 退出登录
+        ShiroUtils.logout();
         return JsonResult.success("注销成功");
     }
 
@@ -171,10 +177,16 @@ public class LoginServiceImpl extends BaseServiceImpl<UserMapper, User> implemen
      */
     @Override
     public JsonResult getMenuList() {
-        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("status", 1);
-        queryWrapper.eq("mark", 1);
-        List<Menu> menuList = menuMapper.selectList(queryWrapper);
+        // 获取用户信息
+        User user = userMapper.selectById(ShiroUtils.getAdminId());
+        // 用户角色
+        String[] roleList = user.getRoleIds().split(",");
+        // 用户独立权限
+        String[] ruleList = user.getRules().split(",");
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleList", (Integer[]) ConvertUtils.convert(roleList, Integer.class));
+        map.put("ruleList", (Integer[]) ConvertUtils.convert(ruleList, Integer.class));
+        List<Menu> menuList = roleMenuMapper.getMenuList(map);
         List<MenuListVo> menuListVoList = new ArrayList<>();
         if (!menuList.isEmpty()) {
             menuList.forEach(item -> {
@@ -288,4 +300,48 @@ public class LoginServiceImpl extends BaseServiceImpl<UserMapper, User> implemen
         return menuList;
     }
 
+    /**
+     * 登录
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
+    @Override
+    public User login(String username, String password) {
+        // 用户名和验证码校验
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("not.null")));
+            throw new UserNotExistsException();
+        }
+//        // 验证码为空校验
+//        String captcha = ServletUtils.getRequest().getSession().getAttribute("captcha").toString();
+//        if (StringUtils.isEmpty(captcha)) {
+//            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.error")));
+//            throw new CaptchaException();
+//        }
+//        // 验证码校验
+//        if (!captcha.equals("520")) {
+//            if (!captcha.toLowerCase().equals(redisUtils.get("key").toString().toLowerCase())) {
+//                AsyncManager.me().execute(AsyncFactory.recordLogininfor(captcha, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.error")));
+//                throw new CaptchaException();
+//            }
+//        }
+
+        // 查询用户信息
+        User user = getUserByName(username);
+        if (user == null) {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists")));
+            throw new UserNotExistsException();
+        }
+        // 判断用户状态
+        if (user.getStatus() != 1) {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.blocked")));
+            throw new LockedAccountException();
+        }
+
+        // 创建登录日志
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        return user;
+    }
 }
